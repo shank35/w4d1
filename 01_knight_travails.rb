@@ -2,7 +2,7 @@ require_relative "00_tree_node.rb"
 
 class KnightPathFinder
   MOVES = [ [-2, -1], [-2,  1], [-1, -2], [-1,  2], [ 1, -2], [ 1,  2], [ 2, -1], [ 2,  1] ]
-    
+
   attr_reader :root_node, :considered_positions
 
   def initialize(start_pos)
@@ -30,7 +30,7 @@ class KnightPathFinder
     @considered_positions += new_positions
     new_positions
   end
-    
+
   def build_move_tree
     nodes = [root_node]
     until nodes.empty?
@@ -42,12 +42,12 @@ class KnightPathFinder
       end
     end
   end
-    
+
   def find_path(end_pos)
     end_node = root_node.bfs(end_pos)
     trace_path_back(end_node).reverse.map(&:value)
   end
-    
+
   def trace_path_back(end_node)
     nodes = []
     current_node = end_node
