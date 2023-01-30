@@ -1,37 +1,28 @@
 require_relative "00_tree_node.rb"
 
 class KnightPathFinder
-  MOVES = [
-      [-2, -1],
-      [-2,  1],
-      [-1, -2],
-      [-1,  2],
-      [ 1, -2],
-      [ 1,  2],
-      [ 2, -1],
-      [ 2,  1]
-  ]
+  MOVES = [ [-2, -1], [-2,  1], [-1, -2], [-1,  2], [ 1, -2], [ 1,  2], [ 2, -1], [ 2,  1] ]
     
   attr_reader :root_node, :considered_positions
-    
+
   def initialize(start_pos)
     @root_node = PolyTreeNode.new(start_pos)
     @considered_positions = [start_pos]
     build_move_tree
   end
-    
-  def self.valid_moves(pos)
+
+  def self.valid_moves(position)
     valid_moves = []
-    cur_x, cur_y = pos
-    MOVES.each do |(dx, dy)|
-      new_pos = [cur_x + dx, cur_y + dy]
-      if new_pos.all? { |coord| coord.between?(0, 7) }
+    current_x, current_y = position
+    MOVES.each do |(x, y)|
+      new_pos = [current_x + x, current_y + y]
+      if new_pos.all? { |coordinate| coordinate.between?(0, 7) }
         valid_moves << new_pos
       end
     end
     valid_moves
   end
-    
+
   def new_move_positions(pos)
     new_positions = KnightPathFinder.valid_moves(pos).reject do |new_pos|
       @considered_positions.include?(new_pos)
@@ -67,3 +58,9 @@ class KnightPathFinder
     nodes
   end
 end
+
+kpf = KnightPathFinder.new([0, 0])
+p kpf.find_path([2, 1]) # => [[0, 0], [2, 1]]
+p kpf.find_path([3, 3]) # => [[0, 0], [2, 1], [3, 3]]
+p kpf.find_path([7, 6]) # => [[0, 0], [1, 2], [2, 4], [3, 6], [5, 5], [7, 6]]
+p kpf.find_path([6, 2]) # => [[0, 0], [1, 2], [2, 0], [4, 1], [6, 2]]
